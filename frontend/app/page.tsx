@@ -7,7 +7,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 
 const ClientOnlyEditor = dynamic(() => import("./components/ClientOnlyEditor"), { ssr: false });
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function Home() {
   // Pagination
@@ -163,13 +163,20 @@ export default function Home() {
   // Query runner
   function handleRunQuery(e, customQuery) {
     if (e) e.preventDefault();
+    
+    const queryToRun = customQuery || query;
+    if (!queryToRun || queryToRun.trim() === "") {
+      setError("Please write a query before running.");
+      return;
+    }
+    
     setLoading(true);
     setError("");
     setResult(null);
     fetch(`${API_URL}/query`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ query: customQuery || query }),
+      body: JSON.stringify({ query: queryToRun }),
     })
       .then(r => r.json())
       .then(data => {
@@ -262,7 +269,7 @@ export default function Home() {
               <ClientOnlyEditor value={query} onChange={setQuery} />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button variant="contained" color="primary" type="submit" disabled={loading} sx={{ fontWeight: 700, px: 4, py: 1.5 }}>{loading ? "Running..." : "Run Query"}</Button>
+              <Button variant="contained" color="primary" type="submit" disabled={loading || !query.trim()} sx={{ fontWeight: 700, px: 4, py: 1.5 }}>{loading ? "Running..." : "Run Query"}</Button>
             </Box>
           </form>
           {error && (
