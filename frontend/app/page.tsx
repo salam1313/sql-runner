@@ -57,7 +57,7 @@ export default function Home() {
   }, [token]);
 
   // Auth handlers
-  function handleAuth(e) {
+  function handleAuth(e: React.FormEvent) {
     e.preventDefault();
     setLoginLoading(true);
     setError("");
