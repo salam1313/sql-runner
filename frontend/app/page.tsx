@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Box, Paper, Typography, Button, TextField, Drawer, List, ListItem, ListItemButton, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Collapse, Skeleton, IconButton } from "@mui/material";
-import ReplayIcon from '@mui/icons-material/Replay';
+
 
 const ClientOnlyEditor = dynamic(() => import("./components/ClientOnlyEditor"), { ssr: false });
 
@@ -385,7 +385,7 @@ export default function Home() {
                         )}
                       </Box>
                       <IconButton size="small" onClick={() => { setQuery(q.query); handleRunQuery(null, q.query); }} title="Re-run this query">
-                        <ReplayIcon fontSize="small" />
+                        ↻
                       </IconButton>
                     </Paper>
                   ))}
