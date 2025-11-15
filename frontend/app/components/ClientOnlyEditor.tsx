@@ -1,18 +1,31 @@
 "use client";
-import React from "react";
-import dynamic from "next/dynamic";
-
-const Editor = dynamic(() => import("react-simple-code-editor"), { ssr: false });
-
-// Prism must be required dynamically to avoid SSR issues
-let Prism: any = null;
-if (typeof window !== "undefined") {
-  Prism = require("prismjs");
-  require("prismjs/components/prism-sql");
-  require("prismjs/themes/prism.css");
-}
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ClientOnlyEditor({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [Editor, setEditor] = useState<any>(null);
+  const [Prism, setPrism] = useState<any>(null);
+  const prismLoaded = useRef(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    // Dynamically import editor and prismjs only on client
+    Promise.all([
+      import("react-simple-code-editor"),
+      import("prismjs")
+    ]).then(([editorMod, prismMod]) => {
+      if (!prismLoaded.current) {
+        require("prismjs/components/prism-sql");
+        require("prismjs/themes/prism.css");
+        prismLoaded.current = true;
+      }
+      if (isMounted) {
+        setEditor(() => editorMod.default);
+        setPrism(() => prismMod.default || prismMod);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
   if (!Editor || !Prism) return null;
   return (
     <Editor
