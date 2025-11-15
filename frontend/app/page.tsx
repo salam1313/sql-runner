@@ -7,7 +7,7 @@ import { Box, Paper, Typography, Button, TextField, Drawer, List, ListItem, List
 
 const ClientOnlyEditor = dynamic(() => import("./components/ClientOnlyEditor"), { ssr: false });
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://your-railway-url.railway.app";
 
 export default function Home() {
   // Pagination

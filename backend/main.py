@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://your-frontend-url.vercel.app",
+        "https://sql-runner-mosr-p1omxf7f5-salam1313s-projects.vercel.app",
         "https://*.vercel.app"
     ],
     allow_credentials=True,
