@@ -264,6 +264,7 @@ export default function Home() {
           <Typography variant="h5" fontWeight={700} color="#1976d2">SQL Query Runner</Typography>
         </Box>
         <Paper elevation={3} sx={{ width: "100%", maxWidth: 700, p: 3, borderRadius: 3, mb: 3 }}>
+          {/* @ts-ignore */}
           <form onSubmit={e => handleRunQuery(e, undefined)} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* SQL Editor with syntax highlighting (client-only) */}
             <Box sx={{ mb: 2, border: '1px solid #e0e0e0', borderRadius: 2, overflow: 'hidden', bgcolor: '#fafbfc' }}>
