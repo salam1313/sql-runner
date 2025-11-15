@@ -1,32 +1,11 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import Editor from "react-simple-code-editor";
+import Prism from "prismjs";
+import "prismjs/components/prism-sql";
+import "prismjs/themes/prism.css";
 
 export default function ClientOnlyEditor({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const [Editor, setEditor] = useState<any>(null);
-  const [Prism, setPrism] = useState<any>(null);
-  const prismLoaded = useRef(false);
-
-  useEffect(() => {
-    let isMounted = true;
-    // Dynamically import editor and prismjs only on client
-    Promise.all([
-      import("react-simple-code-editor"),
-      import("prismjs")
-    ]).then(([editorMod, prismMod]) => {
-      if (!prismLoaded.current) {
-        require("prismjs/components/prism-sql");
-        require("prismjs/themes/prism.css");
-        prismLoaded.current = true;
-      }
-      if (isMounted) {
-        setEditor(() => editorMod.default);
-        setPrism(() => prismMod.default || prismMod);
-      }
-    });
-    return () => { isMounted = false; };
-  }, []);
-
-  if (!Editor || !Prism) return null;
   return (
     <Editor
       value={value}
